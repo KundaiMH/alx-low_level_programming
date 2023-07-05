@@ -8,19 +8,18 @@
  */
 int _sqrt_recursion_wrapper(int n, int min, int max)
 {
-	int guess, guess_squared;
+	int guess;
 
 	guess = (min + max) / 2; /* Get the guess (g) */
-	guess_squared = guess * guess; /* Square the guess (sg) */
 
-	if (guess_squared == n) /* If squared guess is equal to n, return guess */
-		return (guess);
-	else if (min + 1 == max && guess_squared < n) /* Check if consecutive numbers and guess_squared < n */
-		return (-1);
-	else if (guess_squared < n) /* Overshoot the guess if sg is less than n */
-		return (_sqrt_recursion_wrapper(n, guess + 1, max));
+	if (guess * guess == n) /* If squared guess is equal to n, return guess */
+		return guess;
+	else if (min + 1 == max && guess * guess < n) /* Check if consecutive numbers and guess_squared < n */
+		return -1;
+	else if (guess * guess < n) /* Overshoot the guess if sg is less than n */
+		return _sqrt_recursion_wrapper(n, guess + 1, max);
 	else /* Undershoot the guess if sg is greater than n */
-		return (_sqrt_recursion_wrapper(n, min, guess));
+		return _sqrt_recursion_wrapper(n, min, guess);
 }
 
 /**
@@ -31,12 +30,10 @@ int _sqrt_recursion_wrapper(int n, int min, int max)
  */
 int _sqrt_recursion(int n)
 {
-	if (n == 1) /* sqrt(1) == 1 */
-		return (1);
-	else if (n == 0) /* sqrt(0) == 0 */
-		return (0);
-	else if (n < 0) /* sqrt(-n) == -1 (Not Applicable) */
-		return (-1);
+	if (n < 0) /* sqrt(-n) == -1 (Not Applicable) */
+		return -1;
+	else if (n == 0 || n == 1) /* sqrt(0) == 0, sqrt(1) == 1 */
+		return n;
 	else
-		return (_sqrt_recursion_wrapper(n, 1, n));
+		return _sqrt_recursion_wrapper(n, 1, n);
 }
